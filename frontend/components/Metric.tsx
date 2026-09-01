@@ -1,0 +1,1 @@
+export default function Metric({label,value,sub}:{label:string,value:string|number,sub?:string}){return <div className="panel rounded-2xl p-5"><div className="text-sm muted">{label}</div><div className="text-3xl font-semibold mt-2">{value}</div>{sub&&<div className="text-xs muted mt-2">{sub}</div>}</div>}

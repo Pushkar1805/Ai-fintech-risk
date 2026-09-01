@@ -1,0 +1,3 @@
+from pydantic import BaseModel, Field
+class Application(BaseModel):
+ customer_id:str='DEMO'; monthly_income:float=Field(gt=0); monthly_expenses:float=Field(ge=0); average_monthly_inflow:float=Field(ge=0); average_monthly_outflow:float=Field(ge=0); transaction_count:int=Field(ge=0); average_transaction:float=Field(ge=0); savings_balance:float=Field(ge=0); failed_payments:int=Field(ge=0); late_payments:int=Field(ge=0); account_age_months:int=Field(ge=0); spending_volatility:float=Field(ge=0,le=1); weekend_spending_ratio:float=Field(ge=0,le=1); night_transaction_ratio:float=Field(ge=0,le=1); new_device:bool=False; failed_logins:int=Field(ge=0); location_change:bool=False; kyc_status:str='VERIFIED'; requested_credit_limit:float=Field(default=20000,gt=0)
