@@ -24,7 +24,7 @@ BASE = Path(__file__).resolve().parents[1]
 # DATABASE INITIALIZATION
 # ============================================================
 
-# Connect to the database configured in backend/.env
+# Database is configured through backend/.env
 # DATABASE_URL should point to your Supabase PostgreSQL database.
 init_db()
 
@@ -66,12 +66,11 @@ app = FastAPI(
 # CORS CONFIGURATION
 # ============================================================
 
+# Allows the Next.js frontend to communicate with FastAPI
+# during local development on any localhost/127.0.0.1 port.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-    ],
+    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1):\d+$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -343,6 +342,22 @@ def assess(a):
 
 
 # ============================================================
+# ROOT ROUTE
+# ============================================================
+
+@app.get("/")
+def root():
+    return {
+        "status": "ok",
+        "service": "RiskLedger AI API",
+        "message": "Backend is running successfully.",
+        "docs": "/docs",
+        "health": "/health",
+        "database": "supabase-postgresql",
+    }
+
+
+# ============================================================
 # HEALTH CHECK
 # ============================================================
 
@@ -351,8 +366,6 @@ def health():
     return {
         "status": "ok",
         "service": "riskledger-ai",
-
-        # Changed from SQLite
         "database": "supabase-postgresql",
     }
 
@@ -429,7 +442,7 @@ def application(
         )
     )
 
-    # Save to database
+    # Save to Supabase
     db.commit()
 
     return r
@@ -569,6 +582,5 @@ def dashboard(
             "fraud": fraud["name"],
         },
 
-        # Changed from SQLite
         "database": "Supabase PostgreSQL",
     }
